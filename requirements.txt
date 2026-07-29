@@ -2,3 +2,4 @@ openai-agents
 pydantic
 python-dotenv
 pypdf
+duckduckgo-search

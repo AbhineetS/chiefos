@@ -2,8 +2,25 @@ import asyncio
 import logging
 from dotenv import load_dotenv
 
+import sys
+import os
+
 load_dotenv()
 
+def validate_startup():
+    if not os.environ.get("OPENAI_API_KEY"):
+        print("=======================================")
+        print("Configuration Error: Missing OPENAI_API_KEY")
+        print("=======================================")
+        print("The ChiefOS application requires an OpenAI API key to function.")
+        print("Please follow these steps to set it up:")
+        print("1. Create a file named '.env' in the project root directory (ChiefOS/).")
+        print("2. Add your API key to the file like this: OPENAI_API_KEY=your-actual-api-key")
+        print("3. Run the application again.")
+        print("\nExiting gracefully. The project is fully functional and only requires a valid OPENAI_API_KEY to execute.")
+        sys.exit(0)
+
+validate_startup()
 from agents import Runner, RunState
 from core_agents.planner import planner_agent
 

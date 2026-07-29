@@ -9,23 +9,34 @@ A CLI-based multi-agent application built using the `openai-agents` Python SDK.
 - **Human in the Loop**: Emails require explicit human approval in the terminal before "sending".
 - **Structured Output**: Generates a well-formatted final report using Pydantic.
 - **Shared Memory**: Cross-agent context sharing for seamless workflows.
+- **Graceful Error Handling**: Validates environment and handles missing keys without crashing.
+- **Real Search Integration**: Uses DuckDuckGo to perform real web searches.
 
-## Setup
+## Setup Instructions
 
-1. Create a virtual environment and install dependencies:
+1. **Create virtual environment**:
    ```bash
    python -m venv .venv
    source .venv/bin/activate
+   ```
+
+2. **Install requirements**:
+   ```bash
    pip install -r requirements.txt
    ```
 
-2. Set up environment variables:
+3. **Create .env**:
    ```bash
    cp .env.example .env
    ```
-   Edit `.env` and add your `OPENAI_API_KEY`.
 
-3. Run the application:
+4. **Add OPENAI_API_KEY**:
+   Open `.env` in your text editor and add your actual OpenAI API Key.
+   ```
+   OPENAI_API_KEY=sk-...
+   ```
+
+5. **Run project**:
    ```bash
    python main.py
    ```
