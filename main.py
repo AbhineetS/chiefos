@@ -1,21 +1,28 @@
 import asyncio
 import logging
 from dotenv import load_dotenv
-
 import sys
 import os
+import shutil
+
+# Automatically create .env from .env.example if it doesn't exist
+if not os.path.exists(".env") and os.path.exists(".env.example"):
+    shutil.copy(".env.example", ".env")
+    print("[ChiefOS System] Automatically created '.env' file from '.env.example'.")
 
 load_dotenv()
 
 def validate_startup():
-    if not os.environ.get("OPENAI_API_KEY"):
+    # If the default placeholder is still there or it's missing, consider it not configured
+    key = os.environ.get("OPENAI_API_KEY")
+    if not key or key == "your-openai-api-key-here" or key.strip() == "":
         print("=======================================")
         print("Configuration Error: Missing OPENAI_API_KEY")
         print("=======================================")
         print("The ChiefOS application requires an OpenAI API key to function.")
         print("Please follow these steps to set it up:")
-        print("1. Create a file named '.env' in the project root directory (ChiefOS/).")
-        print("2. Add your API key to the file like this: OPENAI_API_KEY=your-actual-api-key")
+        print("1. Open the '.env' file in the project root directory (ChiefOS/).")
+        print("2. Add your actual API key: OPENAI_API_KEY=sk-...")
         print("3. Run the application again.")
         print("\nExiting gracefully. The project is fully functional and only requires a valid OPENAI_API_KEY to execute.")
         sys.exit(0)
