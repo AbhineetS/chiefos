@@ -1,7 +1,5 @@
-from agents.decorators import tool
 from memory.memory import global_memory
 
-@tool
 async def web_search(query: str) -> str:
     """Search the web for information. Use this whenever you need up-to-date facts or research."""
     print(f"\n[Tool Execution: Web Search] Searching for: '{query}'")

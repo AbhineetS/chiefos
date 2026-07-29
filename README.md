@@ -1,6 +1,6 @@
 # ChiefOS
 
-A CLI-based multi-agent application built using the `openai-agents` Python SDK.
+A CLI-based multi-agent application built using the official `google-genai` Python SDK.
 
 ## Features
 
@@ -29,11 +29,12 @@ A CLI-based multi-agent application built using the `openai-agents` Python SDK.
    ```bash
    cp .env.example .env
    ```
+   *Note: If you skip this step, running the app will automatically create the `.env` file for you.*
 
-4. **Add OPENAI_API_KEY**:
-   Open `.env` in your text editor and add your actual OpenAI API Key.
+4. **Add GEMINI_API_KEY**:
+   Open `.env` in your text editor and add your actual Google Gemini API Key.
    ```
-   OPENAI_API_KEY=sk-...
+   GEMINI_API_KEY=AIza...
    ```
 
 5. **Run project**:

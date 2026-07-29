@@ -1,6 +1,5 @@
-from agents.decorators import tool
-from pydantic import BaseModel
 import os
+from pydantic import BaseModel
 
 class ExecutiveSummary(BaseModel):
     title: str
@@ -8,7 +7,6 @@ class ExecutiveSummary(BaseModel):
     action_items: list[str]
     summary_paragraph: str
 
-@tool
 async def generate_and_save_report(filename: str, report: ExecutiveSummary) -> str:
     """Generate a structured final report from an ExecutiveSummary object and save it to a file.
     

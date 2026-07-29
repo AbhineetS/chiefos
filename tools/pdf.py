@@ -1,7 +1,5 @@
-from agents.decorators import tool
 import os
 
-@tool
 async def extract_text_from_pdf(filepath: str) -> str:
     """Extract text content from a local PDF file."""
     print(f"\n[Tool Execution: PDF Reader] Reading document at '{filepath}'")
