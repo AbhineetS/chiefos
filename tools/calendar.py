@@ -13,5 +13,5 @@ async def get_upcoming_meetings(date: str) -> str:
         f"3. 04:30 PM - Planning Meeting"
     )
     
-    global_memory.set(f"meetings_{date_str}", result)
+    global_memory.set(f"meetings_{date}", result)
     return result

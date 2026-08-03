@@ -1,4 +1,3 @@
-from agents.decorators import tool
 from memory.memory import global_memory
 import asyncio
 

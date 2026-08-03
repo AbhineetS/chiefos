@@ -3,6 +3,7 @@ from core_agents.research import research_agent
 from core_agents.meeting_prep import meeting_prep_agent
 from core_agents.email_manager import email_manager_agent
 from core_agents.report_generator import report_generator_agent
+from core_agents.strategy_tracker import strategy_tracker_agent
 
 planner_agent = Agent(
     name="Executive Planner",
@@ -18,7 +19,8 @@ Do not make up information; always rely on the specialists.
         handoff(research_agent),
         handoff(meeting_prep_agent),
         handoff(email_manager_agent),
-        handoff(report_generator_agent)
+        handoff(report_generator_agent),
+        handoff(strategy_tracker_agent)
     ]
 )
 
@@ -28,3 +30,4 @@ research_agent.tools.append(transfer_to_planner)
 meeting_prep_agent.tools.append(transfer_to_planner)
 email_manager_agent.tools.append(transfer_to_planner)
 report_generator_agent.tools.append(transfer_to_planner)
+strategy_tracker_agent.tools.append(transfer_to_planner)

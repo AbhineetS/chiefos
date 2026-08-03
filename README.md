@@ -1,18 +1,42 @@
-# ChiefOS
+# ChiefOS: The Virtual AI Chief of Staff
 
-A CLI-based multi-agent application built using the official `google-genai` Python SDK.
+ChiefOS is a multi-agent executive assistant built with the official `google-genai` Python SDK. It acts as a central hub for automating complex executive operations, seamlessly delegating tasks to a team of specialized AI agents to research, plan, track strategy, and draft communications.
 
-## Features
+## 🌟 Key Project Features (Fulfilling Academic Requirements)
 
-- **Multi-Agent Architecture**: 5 specialized agents handling planning, research, meeting prep, email drafting, and report generation.
-- **Agent Handoffs**: Seamless task delegation from the Executive Planner to specialized agents.
-- **Human in the Loop**: Emails require explicit human approval in the terminal before "sending".
-- **Structured Output**: Generates a well-formatted final report using Pydantic.
-- **Shared Memory**: Cross-agent context sharing for seamless workflows.
-- **Graceful Error Handling**: Validates environment and handles missing keys without crashing.
-- **Real Search Integration**: Uses DuckDuckGo to perform real web searches.
+### 1. Multi-Agent Architecture
+ChiefOS implements a Hub-and-Spoke architecture with **6 specialized AI agents**:
+- **Executive Planner**: Orchestrates task delegation.
+- **Research Analyst**: Conducts real-time web searches.
+- **Meeting Preparation**: Parses calendar events.
+- **Strategy Tracker**: Monitors high-level company OKRs.
+- **Email Manager**: Drafts outbound executive communications.
+- **Report Generator**: Synthesizes structured markdown summaries.
 
-## Setup Instructions
+*See [`docs/architecture_design.md`](docs/architecture_design.md) for the architecture diagram and handoff flow.*
+
+### 2. Tool Integration
+The agents are empowered by Python tools to interact with external data:
+1. `web_search` (DuckDuckGo integration)
+2. `get_upcoming_meetings` (Calendar parsing)
+3. `get_company_okrs` (Strategy tracking)
+4. `draft_and_send_email` (Outbound comms)
+5. `generate_and_save_report` (File I/O)
+6. `extract_text_from_pdf` (RAG / Document reading)
+
+### 3. Advanced AI Capabilities
+- **Human-in-the-Loop**: Absolute safety is maintained by hard-stopping execution to prompt the human operator via the terminal (`y/n`) before outbound emails are actually sent.
+- **Memory & Context Management**: To prevent LLM context-window pollution, agents share data via a centralized `global_memory` Key-Value store. 
+- **Structured Outputs**: The Report Generator utilizes Pydantic data models (`ExecutiveSummary`) to guarantee the LLM returns strictly formatted JSON.
+- **Error Handling & API Resilience**: Complex agent networks rapidly consume API rate limits (like Gemini's 15 RPM). The custom `Runner` engine intercepts `429 RESOURCE_EXHAUSTED` errors and applies an exponential backoff retry loop to ensure execution succeeds gracefully.
+
+## 📁 Project Documentation
+- **[Problem Analysis](docs/problem_analysis.md)**: Business context and objectives.
+- **[Architecture & Design](docs/architecture_design.md)**: Mermaid diagram and interaction flow.
+- **[Presentation Slides](docs/presentation_slides.md)**: 12-slide presentation outline for defense.
+- **[Demo Script](docs/demo_script.md)**: Step-by-step 5-10 minute video demonstration script.
+
+## 🚀 Setup Instructions
 
 1. **Create virtual environment**:
    ```bash
@@ -25,26 +49,20 @@ A CLI-based multi-agent application built using the official `google-genai` Pyth
    pip install -r requirements.txt
    ```
 
-3. **Create .env**:
-   ```bash
-   cp .env.example .env
-   ```
-   *Note: If you skip this step, running the app will automatically create the `.env` file for you.*
-
-4. **Add GEMINI_API_KEY**:
-   Open `.env` in your text editor and add your actual Google Gemini API Key.
+3. **Configure API Key**:
+   Create a `.env` file and add your Google Gemini API Key.
    ```
    GEMINI_API_KEY=AIza...
    ```
 
-5. **Run project**:
+4. **Run the Project**:
    ```bash
    python main.py
    ```
 
-## Usage
+## 💻 Usage Example
 
-When prompted by the CLI, enter your task. For example:
+When prompted by the CLI, enter a complex multi-part task:
 > "Research the new OpenAI Agents SDK, check my calendar for tomorrow to prep a briefing, draft an email to the team with the findings, and generate a final report."
 
-The agents will coordinate to complete your task and prompt you for approval before sending any emails.
+The Executive Planner will take over, delegating sub-tasks across the specialized agents, halting for your approval before emailing, and finally saving a synthesized `.md` file to the directory.

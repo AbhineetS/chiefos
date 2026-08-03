@@ -46,15 +46,29 @@ class Runner:
             # We call generate_content on the current agent
             tools = current_agent.tools
             
-            response = client.models.generate_content(
-                model="gemini-2.5-flash",
-                contents=contents,
-                config=types.GenerateContentConfig(
-                    system_instruction=current_agent.instructions,
-                    tools=tools if tools else None,
-                    temperature=0.0,
-                )
-            )
+            from google.genai.errors import APIError
+            
+            response = None
+            retries = 5
+            for attempt in range(retries):
+                try:
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=contents,
+                        config=types.GenerateContentConfig(
+                            system_instruction=current_agent.instructions,
+                            tools=tools if tools else None,
+                            temperature=0.0,
+                            automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True),
+                        )
+                    )
+                    break
+                except APIError as e:
+                    if attempt < retries - 1:
+                        print(f"API Error ({e}). Retrying in 30 seconds...")
+                        await asyncio.sleep(30)
+                    else:
+                        raise e
             
             # Append model's response to history
             model_parts = []
